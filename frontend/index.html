@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Leave Mgmt - Demo</title></head>
+<body>
+<h2>Leave Management - Simple Demo</h2>
+
+<section>
+  <h3>Add Employee</h3>
+  <input id="ename" placeholder="Name"/>
+  <input id="eemail" placeholder="Email"/>
+  <input id="edept" placeholder="Department"/>
+  <button onclick="addEmployee()">Add</button>
+  <pre id="addEmpRes"></pre>
+</section>
+
+<section>
+  <h3>Apply Leave</h3>
+  <input id="empid" placeholder="Employee ID"/>
+  <input id="sdate" placeholder="Start YYYY-MM-DD"/>
+  <input id="edate" placeholder="End YYYY-MM-DD"/>
+  <input id="ltype" placeholder="Type (ANNUAL)"/>
+  <input id="reason" placeholder="Reason"/>
+  <button onclick="applyLeave()">Apply</button>
+  <pre id="applyRes"></pre>
+</section>
+
+<script>
+const base = 'http://localhost:3000';
+
+async function addEmployee(){
+  const name=document.getElementById('ename').value;
+  const email=document.getElementById('eemail').value;
+  const department=document.getElementById('edept').value;
+  const res = await fetch(base+'/employees',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,email,department})});
+  const j = await res.json();
+  document.getElementById('addEmpRes').innerText = JSON.stringify(j,null,2);
+}
+
+async function applyLeave(){
+  const emp_id = parseInt(document.getElementById('empid').value);
+  const start_date = document.getElementById('sdate').value;
+  const end_date = document.getElementById('edate').value;
+  const type = document.getElementById('ltype').value || 'ANNUAL';
+  const reason = document.getElementById('reason').value;
+  const res = await fetch(base+'/leaves/apply',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({emp_id,start_date,end_date,type,reason})});
+  const j = await res.json();
+  document.getElementById('applyRes').innerText = JSON.stringify(j,null,2);
+}
+</script>
+</body>
+</html>
