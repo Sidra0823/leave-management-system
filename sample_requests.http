@@ -1,0 +1,38 @@
+### Health
+GET http://127.0.0.1:8000/health
+
+### Add Employee
+POST http://127.0.0.1:8000/employees
+Content-Type: application/json
+
+{
+  "name": "Aisha Khan",
+  "email": "aisha@example.com",
+  "department": "Engineering",
+  "joining_date": "2024-04-10",
+  "annual_leave_allowance": 24
+}
+
+### Apply Leave (valid)
+POST http://127.0.0.1:8000/leaves
+Content-Type: application/json
+
+{
+  "employee_id": 1,
+  "start_date": "2024-06-01",
+  "end_date": "2024-06-03",
+  "reason": "Family function",
+  "leave_type": "annual"
+}
+
+### Decide Leave (approve)
+POST http://127.0.0.1:8000/leaves/1/decision
+Content-Type: application/json
+
+{ "approve": true }
+
+### Get Balance
+GET http://127.0.0.1:8000/employees/1/balance
+
+### List Leaves
+GET http://127.0.0.1:8000/leaves?status=approved
